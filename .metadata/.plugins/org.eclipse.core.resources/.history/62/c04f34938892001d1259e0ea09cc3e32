@@ -1,0 +1,9 @@
+package controller;
+
+public class TrieuDaiCrawler {
+	private String url; 
+	
+	public TrieuDaiCrawler() {
+		url = "https://thuvienlichsu.com/thoi-ky"; 
+	}
+}

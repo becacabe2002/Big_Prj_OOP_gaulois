@@ -1,0 +1,38 @@
+package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class TrieuDaiCrawler {
+	private String url; 
+	
+	public TrieuDaiCrawler() {
+		url = "https://thuvienlichsu.com/thoi-ky"; 
+	}
+	
+	public Elements listElementCard() throws IOException {
+		Document document = Jsoup.connect(url).get(); 
+		Elements elms = document.getElementsByClass("divide-content");
+		return elms;
+	}
+	
+	public void getSubPage(Element element) {
+		Element link = element.getElementsByTag("a").first();
+		String subUrl = link.attr("href");
+		System.out.println(url + subUrl);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		TrieuDaiCrawler crawler = new TrieuDaiCrawler();
+		Elements cardElements = crawler.listElementCard();
+		cardElements.forEach((element) -> {
+			crawler.getSubPage(element);
+		});
+		//System.out.println(cardElements);
+	}
+}

@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\quang\Desktop\semester1-year3\OOP-lythuyet\baitaplon\WebScraper\.metadata\.plugins\org.eclipse.jdt.core
+2826193574.index
+1865797976.index
+1692674292.index

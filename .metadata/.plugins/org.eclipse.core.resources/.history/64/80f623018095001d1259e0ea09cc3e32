@@ -1,0 +1,152 @@
+package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
+
+import model.Database;
+import model.HistoricalItem;
+import model.SuKien;
+import model.TrieuDai;
+
+public class TrieuDaiCrawler extends Crawler{
+	private String originalUrl;
+	private String subUrl;
+	
+	public TrieuDaiCrawler() {
+		super();
+		originalUrl = "https://thuvienlichsu.com"; 
+	}
+	
+	public String getOriginalUrl() {
+		return originalUrl;
+	}
+
+	public void setOriginalUrl(String originalUrl) {
+		this.originalUrl = originalUrl;
+	}
+
+	@Override
+	public Elements listElementCard(String url, String elmClass) throws IOException {
+		Document document = Jsoup.connect(url).get(); 
+		Elements elms = document.getElementsByClass(elmClass);
+		return elms;
+	}
+	
+	@Override
+	public Document getSubPage(Element element) throws IOException {
+		Element link = element.getElementsByTag("a").first();
+		this.subUrl = link.absUrl("href");
+		Document documentSubPage = Jsoup.connect(this.subUrl).get();
+		return documentSubPage;
+	}
+	
+	public HistoricalItem getDataTrieuDaiPage(Document documentSubPage) throws IOException {
+		//crawl inside the subpage to get data
+		String title = documentSubPage.getElementsByTag("h1").text();
+		//get begin and end year from title
+		ArrayList<String> date = this.getBeginEndYear(title);
+		String beginYear = date.get(0);
+		String endYear = date.get(1);
+		Elements suKienCard = this.listElementCard(this.subUrl, "divide-content");
+		SuKien suKienData = new SuKien();
+		ArrayList<String> diaDiem = new ArrayList<String>();
+		for (Iterator<Element> i = suKienCard.iterator(); i.hasNext();) {
+		    Element element = i.next();
+		    try {
+				Document documentSuKienPage = this.getSubPage(element);
+//				HistoricalItem data = this.getDataSuKienPage(documentSuKienPage);
+				suKienData = this.getDataSuKienPage(documentSuKienPage);
+//				System.out.println(suKienData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+				
+		TrieuDai item = new TrieuDai(title, beginYear, endYear);
+		return item;
+	}
+	
+	public SuKien getDataSuKienPage(Document documentSuKienPage) {
+		SuKien suKienData = new SuKien(); 
+		Elements elms = this.getHeaderCards(documentSuKienPage);
+		Element headerCardDiaDanh = this.getCategoryHeaderCard("Địa điểm liên quan", elms);
+		ArrayList<String> diaDanhTitleElements = new ArrayList<String>();
+		if(headerCardDiaDanh != null) {
+			diaDanhTitleElements = this.getInnerDataCardsTitles(headerCardDiaDanh);
+			System.out.println(diaDanhTitleElements);
+		}
+		suKienData.setDiaDiem(diaDanhTitleElements);
+		return suKienData;
+	}
+	
+	public Elements getHeaderCards(Document documentSuKienPage) {
+		Elements elms = documentSuKienPage.getElementsByClass("card mb-3");
+		return elms;
+	}
+	
+	public ArrayList<String> getInnerDataCardsTitles(Element headerCard) {
+		Elements dataCardsTitles = headerCard.getElementsByClass("card-title");
+		ArrayList<String> diaDanhTitles = new ArrayList<String>();
+		for (Iterator<Element> i = dataCardsTitles.iterator(); i.hasNext();) {
+		    String item = i.next().text();
+		    if(diaDanhTitles.contains(item) == false) {
+		    	diaDanhTitles.add(item);
+//		    	System.out.println(item);
+		    }
+		}
+		return diaDanhTitles;
+	}
+	
+	public Element getCategoryHeaderCard(String title, Elements headerCards) {
+		Iterator<Element> it = headerCards.iterator();
+		while(it.hasNext()) {
+			Element headerCard = it.next();
+			if(this.checkCategoryHeaderCard(title, headerCard) == true) {
+				return headerCard;
+			}
+		}
+//		headerCards.forEach((headerCard) ->{
+//			if(this.checkCategoryHeaderCard(title, headerCard) == true) {
+//				sastifiedCard = headerCard;
+//			}
+//		});
+		return null;
+		
+	}
+	
+	public boolean checkCategoryHeaderCard(String title, Element headerCard) {
+		String headerTitle = headerCard.getElementsByClass("header-edge").text();
+		if(headerTitle.equals(title) == true) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		//TEST
+		TrieuDaiCrawler crawler = new TrieuDaiCrawler();
+		Elements cardElements = crawler.listElementCard(crawler.getOriginalUrl() + "/thoi-ky", "divide-content");
+		Database db = new Database();
+		cardElements.forEach((element) -> {
+			try {
+				Document documentSubPage = crawler.getSubPage(element);
+				HistoricalItem data = crawler.getDataTrieuDaiPage(documentSubPage);
+				db.addData(data.createJSON());
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		db.saveData("src/model/output.json");
+		//System.out.println(cardElements);
+	}
+}

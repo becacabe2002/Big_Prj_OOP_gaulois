@@ -1,0 +1,10 @@
+/**
+ * 
+ */
+/**
+ * @author quang
+ *
+ */
+module WebScraper {
+	requires json.simple;
+}
