@@ -6,12 +6,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/quang/Desktop/semester1-year3/OOP-lythuyet/baitaplon/WebScraper/WebScraper/bin/lib/json-simple-1.1.jar">
+	<classpathentry kind="lib" path="D:/OneDrive - Hanoi University of Science and Technology/OOP/Big_Prj_OOP_gaulois/WebScraper/bin/lib/json-simple-1.1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/quang/Desktop/semester1-year3/OOP-lythuyet/baitaplon/WebScraper/WebScraper/bin/lib/jsoup-1.15.3.jar">
+	<classpathentry kind="lib" path="D:/OneDrive - Hanoi University of Science and Technology/OOP/Big_Prj_OOP_gaulois/WebScraper/bin/lib/jsoup-1.15.3.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
