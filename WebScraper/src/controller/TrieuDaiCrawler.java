@@ -153,7 +153,7 @@ public class TrieuDaiCrawler extends Crawler{
 				e.printStackTrace();
 			}
 		});
-		db.saveData("src/model/output.json");
+		db.saveData("src/model/TrieuDai.json");
 		System.out.println("done");
 		//System.out.println(cardElements);
 	}

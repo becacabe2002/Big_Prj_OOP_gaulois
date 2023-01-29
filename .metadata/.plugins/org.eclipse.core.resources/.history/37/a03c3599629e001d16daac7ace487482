@@ -1,0 +1,31 @@
+package controller;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+public class DiaDiemCrawler extends Crawler{
+	private String originalUrl;
+	private String subUrl;
+	
+	public DiaDiemCrawler() {
+		super();
+		originalUrl = "https://thuvienlichsu.com"; 
+	}
+	
+	public String getOriginalUrl() {
+		return originalUrl;
+	}
+
+	public void setOriginalUrl(String originalUrl) {
+		this.originalUrl = originalUrl;
+	}
+	public Elements listElementCard(String url, String elmClass) throws IOException {
+		Document document = Jsoup.connect(url).get(); 
+		Elements elms = document.getElementsByClass(elmClass);
+		System.out.println(elms);
+		return elms;
+	}
+}

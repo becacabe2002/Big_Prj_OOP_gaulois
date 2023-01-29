@@ -1,0 +1,53 @@
+package controller;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import model.Database;
+import model.HistoricalItem;
+
+public class DiaDiemCrawler extends Crawler{
+	private String originalUrl;
+	private String subUrl;
+	
+	public DiaDiemCrawler() {
+		super();
+		originalUrl = "https://thuvienlichsu.com"; 
+	}
+	
+	public String getOriginalUrl() {
+		return originalUrl;
+	}
+
+	public void setOriginalUrl(String originalUrl) {
+		this.originalUrl = originalUrl;
+	}
+	public Elements listElementCard(String url, String elmClass) throws IOException {
+		Document document = Jsoup.connect(url).get(); 
+		Elements elms = document.getElementsByClass(elmClass);
+		return elms;
+	}
+	public static void main(String[] args) throws IOException {
+		DiaDiemCrawler crawler = new DiaDiemCrawler();
+		
+		Elements cardElements = crawler.listElementCard(crawler.getOriginalUrl() + "/dia-diem", "divide-content");
+		Database db = new Database();
+		cardElements.forEach((element) -> {
+			try {
+				Document documentSubPage = crawler.getSubPage(element);
+				HistoricalItem data = crawler.getDataTrieuDaiPage(documentSubPage);
+				db.addData(data.createJSON());
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		db.saveData("src/model/output.json");
+		System.out.println("done");
+		//System.out.println(cardElements);
+	}
+}
