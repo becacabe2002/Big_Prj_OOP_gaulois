@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import model.Database;
 import model.DiaDiem;
 import model.HistoricalItem;
+import model.SuKien;
 
 public class DiaDiemCrawler extends Crawler{
 	private String originalUrl;
