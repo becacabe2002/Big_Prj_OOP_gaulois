@@ -85,6 +85,7 @@ public class TrieuDai extends HistoricalItem{
 	    jsonObject.put("Historical_Events", this.suKien);
 	    jsonObject.put("Historical_Places", this.diaDiem);
 	    jsonObject.put("Historical_Characters", this.nhanVat);
+//	    jsonObject.put("Country", "India");
 	    this.jsonFormat = jsonObject;
 	    return jsonObject;
 	}

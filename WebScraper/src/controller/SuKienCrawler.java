@@ -9,14 +9,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import model.Database;
-import model.DiaDiem;
 import model.HistoricalItem;
+import model.SuKien;
 
-public class DiaDiemCrawler extends Crawler{
+public class SuKienCrawler extends Crawler{
 	private String originalUrl;
 	private String subUrl;
 	
-	public DiaDiemCrawler() {
+	public SuKienCrawler() {
 		super();
 		originalUrl = "https://thuvienlichsu.com"; 
 	}
@@ -44,38 +44,38 @@ public class DiaDiemCrawler extends Crawler{
 		return documentSubPage;
 	}
 	
-	
-	public HistoricalItem getDataDiaDiemPage(Document documentDiaDiemPage) throws IOException {
-		DiaDiem diaDiemData = new DiaDiem(); 
-		Elements elms = this.getHeaderCards(documentDiaDiemPage);
+	public SuKien getDataSuKienPage(Document documentSuKienPage) {
+		SuKien suKienData = new SuKien(); 
+		Elements elms = this.getHeaderCards(documentSuKienPage);
 		String title = elms.first().getElementsByClass("header-edge").text();
-		Element headerCardSuKien = this.getCategoryHeaderCard("Sự kiện liên quan", elms);
+		Element headerCardDiaDanh = this.getCategoryHeaderCard("Địa điểm liên quan", elms);
 		Element headerCardNhanVat = this.getCategoryHeaderCard("Nhân vật liên quan", elms);
-		ArrayList<String> suKienTitleElements = new ArrayList<String>();
+		ArrayList<String> diaDanhTitleElements = new ArrayList<String>();
 		ArrayList<String> nhanVatTitleElements = new ArrayList<String>();
-		if(headerCardSuKien != null) {
-			suKienTitleElements = this.getInnerDataCardsTitles(headerCardSuKien);
+		if(headerCardDiaDanh != null) {
+			diaDanhTitleElements = this.getInnerDataCardsTitles(headerCardDiaDanh);
 		}
 		if(headerCardNhanVat != null) {
 			nhanVatTitleElements = this.getInnerDataCardsTitles(headerCardNhanVat);
 		}
-		diaDiemData.setSuKien(suKienTitleElements);
-		diaDiemData.setNhanVat(nhanVatTitleElements);
-		diaDiemData.setTitle(title);
+		suKienData.setDiaDiem(diaDanhTitleElements);
+		suKienData.setNhanVat(nhanVatTitleElements);
+		suKienData.setTitle(title);
+		
 		System.out.println(title);
 		System.out.println(nhanVatTitleElements);
-		System.out.println(suKienTitleElements);
-		return diaDiemData;
+		System.out.println(diaDanhTitleElements);
+		return suKienData;
 	}
+	
 	public static void main(String[] args) throws IOException {
-		DiaDiemCrawler crawler = new DiaDiemCrawler();
-		
-		Elements cardElements = crawler.listElementCard(crawler.getOriginalUrl() + "/dia-diem", "divide-content");
+		SuKienCrawler crawler = new SuKienCrawler();
+		Elements cardElements = crawler.listElementCard(crawler.getOriginalUrl() + "/su-kien", "divide-content");
 		Database db = new Database();
 		cardElements.forEach((element) -> {
 			try {
 				Document documentSubPage = crawler.getSubPage(element);
-				HistoricalItem data = crawler.getDataDiaDiemPage(documentSubPage);
+				HistoricalItem data = crawler.getDataSuKienPage(documentSubPage);
 				db.addData(data.createJSON());
 				
 			} catch (IOException e) {
@@ -83,9 +83,8 @@ public class DiaDiemCrawler extends Crawler{
 				e.printStackTrace();
 			}
 		});
-		db.saveData("src/model/DiaDiem.json");
+		db.saveData("src/model/SuKien.json");
 		System.out.println("done");
 		//System.out.println(cardElements);
-		
 	}
 }
