@@ -17,7 +17,7 @@ public abstract class Crawler {
 	public abstract Document getSubPage(Element element) throws IOException;
 	
 	public Elements getHeaderCards(Document documentPage) {
-		Elements elms = documentPage.getElementsByClass("card mb-3");
+		Elements elms = documentPage.getElementsByClass("divide-tag");
 		return elms;
 	}
 	
@@ -45,7 +45,10 @@ public abstract class Crawler {
 	
 	public boolean checkCategoryHeaderCard(String titleYouWant, Element headerCard) {
 		String headerTitle = headerCard.getElementsByClass("header-edge").text();
+//		System.out.println("titlewant: " + titleYouWant);
+//		System.out.println("titleactual: " + headerTitle);
 		if(headerTitle.equals(titleYouWant) == true) {
+//			System.out.println("got it!!!");
 			return true;
 		}
 		return false;
@@ -62,4 +65,14 @@ public abstract class Crawler {
 		output.add(endYear);
 		return output;
 	}
+	public String getTitleOnly(String string){
+		String output = string;
+		int iend = string.indexOf("(");
+		if (iend != -1) 
+		{
+			output= string.substring(0 , iend - 1); //this will give abc
+		}
+		return output;
+	}
+	
 }
