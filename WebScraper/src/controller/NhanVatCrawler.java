@@ -15,7 +15,7 @@ import model.NhanVat;
 import model.SuKien;
 import model.TrieuDai;
 
-public class NhanVatCrawler extends Crawler{
+public class NhanVatCrawler extends ThuVienLichSuCrawler{
 	
 	private String originalUrl;
 	private String subUrl;

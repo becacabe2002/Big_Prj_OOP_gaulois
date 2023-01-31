@@ -15,7 +15,7 @@ import model.HistoricalItem;
 import model.SuKien;
 import model.TrieuDai;
 
-public class TrieuDaiCrawler extends Crawler{
+public class TrieuDaiCrawler extends ThuVienLichSuCrawler{
 	private String originalUrl;
 	private String subUrl;
 	

@@ -12,7 +12,7 @@ import model.Database;
 import model.DiaDiem;
 import model.HistoricalItem;
 
-public class DiaDiemCrawler extends Crawler{
+public class DiaDiemCrawler extends ThuVienLichSuCrawler{
 	private String originalUrl;
 	private String subUrl;
 	
