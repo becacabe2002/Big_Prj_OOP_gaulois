@@ -12,7 +12,7 @@ import model.Database;
 import model.HistoricalItem;
 import model.SuKien;
 
-public class SuKienCrawler extends Crawler{
+public class SuKienCrawler extends ThuVienLichSuCrawler{
 	private String originalUrl;
 	private String subUrl;
 	

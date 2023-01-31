@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public abstract class Crawler {
+public abstract class ThuVienLichSuCrawler {
 	
 	public abstract Elements listElementCard(String url, String elmClass) throws IOException;
 	
