@@ -38,4 +38,6 @@ public abstract class HistoricalItem {
 	
 	public abstract JSONObject createJSON();
 	
+	public abstract HistoricalItem getDataFromJson();
+	
 }

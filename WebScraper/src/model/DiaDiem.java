@@ -67,4 +67,10 @@ public class DiaDiem extends HistoricalItem{
 	    return jsonObject;
 	}
 
+	@Override
+	public HistoricalItem getDataFromJson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

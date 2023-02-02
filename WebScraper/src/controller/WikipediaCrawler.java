@@ -1,5 +1,5 @@
 package controller;
 
-public class WikipediaCrawler {
+public abstract class WikipediaCrawler implements Crawl{
 	
 }

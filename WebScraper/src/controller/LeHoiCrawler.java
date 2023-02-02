@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 import model.Database;
 import model.LeHoi;
 
-public class LeHoiCrawler {
+public class LeHoiCrawler extends WikipediaCrawler{
 	private String originalUrl;
 	private String subUrl;
 	
@@ -67,5 +67,11 @@ public class LeHoiCrawler {
 			db.addData(leHoiItem.createJSON());
 		}
 		db.saveData("src/model/LeHoi.json");
+	}
+
+	@Override
+	public void crawl() {
+		// TODO Auto-generated method stub
+		
 	}
 }

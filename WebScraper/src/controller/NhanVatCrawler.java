@@ -110,4 +110,10 @@ public class NhanVatCrawler extends ThuVienLichSuCrawler{
 		//System.out.println(cardElements);
 	}
 
+	@Override
+	public void crawl() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

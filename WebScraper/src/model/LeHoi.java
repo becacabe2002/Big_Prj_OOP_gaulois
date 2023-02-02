@@ -56,5 +56,10 @@ public class LeHoi extends HistoricalItem{
 	    this.jsonFormat = jsonObject;
 	    return jsonObject;
 	}
+	@Override
+	public HistoricalItem getDataFromJson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

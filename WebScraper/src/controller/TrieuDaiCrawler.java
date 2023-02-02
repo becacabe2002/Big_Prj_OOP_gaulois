@@ -157,4 +157,10 @@ public class TrieuDaiCrawler extends ThuVienLichSuCrawler{
 		System.out.println("done");
 		//System.out.println(cardElements);
 	}
+
+	@Override
+	public void crawl() {
+		// TODO Auto-generated method stub
+		
+	}
 }
